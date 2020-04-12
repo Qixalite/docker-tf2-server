@@ -23,7 +23,9 @@ RUN mkdir $SERVER
 
 RUN wget -O - http://media.steampowered.com/client/steamcmd_linux.tar.gz | tar -C $SERVER -xvz
 ADD scripts/install_sourcemod.sh $SERVER/
-ADD tf2_ds.txt update.sh tf.sh $SERVER/
+ADD tf2_ds.txt $SERVER/
+ADD update.sh $SERVER/
+ADD tf.sh $SERVER
 
 RUN $SERVER/update.sh
 RUN $SERVER/install_sourcemod.sh
