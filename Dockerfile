@@ -23,10 +23,11 @@ RUN mkdir $SERVER
 RUN wget -O - http://media.steampowered.com/client/steamcmd_linux.tar.gz | tar -C $SERVER -xvz
 ADD scripts/sourcemod.sh $SERVER/
 ADD tf2_ds.txt update.sh tf.sh $SERVER/
-ADD shared/custom_maps shared/match_configs $SERVER/srcds/tf/custom/
 
 RUN $SERVER/update.sh
 RUN $SERVER/sourcemod.sh
+
+ADD shared/custom_maps shared/match_configs $SERVER/srcds/tf/custom/
 
 EXPOSE 27015/udp 27015/tcp 27020/udp 27020/tcp
 
