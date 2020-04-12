@@ -1,26 +1,35 @@
-from 32bit/ubuntu:16.04
-maintainer Robin Appelman <robin@icewind.nl>
+from debian:buster-slim
+maintainer Alex Butler <alex@alex-j-butler.com>
 
-RUN apt-get -y update \
-	&& apt-get update && DEBIAN_FRONTEND=noninteractive apt-get -y install libstdc++6 libcurl3-gnutls wget libncurses5 bzip2 unzip \
-	&& apt-get clean && rm -rf /var/lib/apt/lists/* /tmp/* /var/tmp/*
+RUN dpkg --add-architecture i386
+RUN apt-get -y update
 
-ENV USER tf2
+RUN apt-get update
+RUN DEBIAN_FRONTEND=noninteractive apt-get -y install lib32gcc1 \
+	lib32stdc++6 \
+	libcurl4-gnutls-dev:i386
+
+ENV USER tf-server
 
 RUN useradd $USER
 ENV HOME /home/$USER
-RUN mkdir $HOME
+RUN MKDIR $HOME
 RUN chown $USER:$USER $HOME
 
 USER $USER
-ENV SERVER $HOME/hlserver
+ENV SERVER $HOME/tfserver
 RUN mkdir $SERVER
+
 RUN wget -O - http://media.steampowered.com/client/steamcmd_linux.tar.gz | tar -C $SERVER -xvz
-ADD tf2_ds.txt update.sh tf.sh clean.sh $SERVER/
-RUN $SERVER/update.sh && $SERVER/clean.sh
+ADD scripts/sourcemod.sh $SERVER/
+ADD tf2_ds.txt update.sh tf.sh $SERVER/
+ADD shared/custom_maps shared/match_configs $SERVER/srcds/tf/custom/
 
-EXPOSE 27015/udp
+RUN $SERVER/update.sh
+RUN $SERVER/sourcemod.sh
 
-WORKDIR /home/$USER/hlserver
+EXPOSE 27015/udp 27015/tcp 27020/udp 27020/tcp
+
+WORKDIR /home/$USER/tfserver
 ENTRYPOINT ["./tf.sh"]
-CMD ["+sv_pure", "1", "+mapcycle", "mapcycle_quickplay_payload.txt", "+map", "cp_badlands", "+maxplayers", "24"]
+CMD ["+sv_pure", "2", "-port", "27015", "+tv_port", "27020", "+rcon_password", "test123", "+sv_password", "example123"]
