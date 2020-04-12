@@ -1,6 +1,6 @@
 steps:
 - name: 'gcr.io/cloud-builders/gsutil'
-  args: ['-m', 'cp', '-r', 'gs://qix-maps/', '/workspace/shared/']
+  args: ['-m', 'cp', '-r', 'gs://qix-maps/', '/workspace/']
 - name: 'gcr.io/cloud-builders/docker'
   args: [ 'build', '-t', 'gcr.io/$PROJECT_ID/qix-tf2', '.' ]
 images:
