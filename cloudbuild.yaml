@@ -3,7 +3,7 @@ steps:
   args: ['cp', 'gs://qix-maps/custom-maps', './shared/']
 - name: 'gcr.io/cloud-builders/gsutil'
   args: ['cp', 'gs://qix-maps/match-configs', './shared/']
-  waitfor: ['-']
+  waitFor: ['-']
 - name: 'gcr.io/cloud-builders/docker'
   args: [ 'build', '-t', 'gcr.io/$PROJECT_ID/qix-tf2', '.' ]
 images:
