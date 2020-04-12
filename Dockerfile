@@ -20,15 +20,18 @@ RUN apt-get install -y wget
 USER $USER
 ENV SERVER $HOME/tfserver
 RUN mkdir $SERVER
+WORKDIR $SERVER
 
 RUN wget -O - http://media.steampowered.com/client/steamcmd_linux.tar.gz | tar -C $SERVER -xvz
 ADD scripts/install_sourcemod.sh $SERVER/
 ADD tf2_ds.txt $SERVER/
 ADD update.sh $SERVER/
-ADD tf.sh $SERVER
+ADD tf.sh $SERVER/
 
 RUN ls -la
 RUN cd $SERVER && ls -la
+RUN cd $SERVER && pwd
+RUN echo $SERVER
 RUN $SERVER/update.sh
 RUN $SERVER/install_sourcemod.sh
 
@@ -36,6 +39,5 @@ ADD shared/custom_maps shared/match_configs $SERVER/srcds/tf/custom/
 
 EXPOSE 27015/udp 27015/tcp 27020/udp 27020/tcp
 
-WORKDIR /home/$USER/tfserver
 ENTRYPOINT ["./tf.sh"]
 CMD ["+sv_pure", "2", "-port", "27015", "+tv_port", "27020", "+rcon_password", "test123", "+sv_password", "example123"]
