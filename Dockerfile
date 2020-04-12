@@ -1,4 +1,4 @@
-from debian:buster-slim
+from debian:buster
 maintainer Alex Butler <alex@alex-j-butler.com>
 
 RUN dpkg --add-architecture i386
