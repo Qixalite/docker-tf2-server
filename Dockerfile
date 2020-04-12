@@ -27,6 +27,8 @@ ADD tf2_ds.txt $SERVER/
 ADD update.sh $SERVER/
 ADD tf.sh $SERVER
 
+RUN ls -la
+RUN cd $SERVER && ls -la
 RUN $SERVER/update.sh
 RUN $SERVER/install_sourcemod.sh
 
