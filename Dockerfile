@@ -23,17 +23,19 @@ RUN mkdir $SERVER
 WORKDIR $SERVER
 
 RUN wget -O - http://media.steampowered.com/client/steamcmd_linux.tar.gz | tar -C $SERVER -xvz
+
 ADD scripts/install_sourcemod.sh $SERVER/
-ADD tf2_ds.txt $SERVER/
-ADD update.sh $SERVER/
-ADD tf.sh $SERVER/
+ADD scripts/tf2_ds.txt $SERVER/
+ADD scripts/update.sh $SERVER/
+ADD scripts/tf.sh $SERVER/
 
 RUN ls -la
 RUN cd $SERVER && ls -la
 RUN cd $SERVER && pwd
 RUN echo $SERVER
-RUN $SERVER/update.sh
-RUN $SERVER/install_sourcemod.sh
+RUN echo $SERVER/update.sh
+RUN bash $SERVER/update.sh
+RUN bash $SERVER/install_sourcemod.sh
 
 ADD shared/custom_maps shared/match_configs $SERVER/srcds/tf/custom/
 
