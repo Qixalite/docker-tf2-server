@@ -24,6 +24,9 @@ WORKDIR $SERVER
 
 RUN wget -O - http://media.steampowered.com/client/steamcmd_linux.tar.gz | tar -C $SERVER -xvz
 
+ADD shared/custom_maps shared/match_configs $SERVER/
+RUN cd $SERVER && ls -la && pwd
+
 ADD scripts/install_sourcemod.sh $SERVER/
 ADD scripts/tf2_ds.txt $SERVER/
 ADD scripts/update.sh $SERVER/
