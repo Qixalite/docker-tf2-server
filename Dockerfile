@@ -15,6 +15,7 @@ RUN useradd $USER
 ENV HOME /home/$USER
 RUN mkdir $HOME
 RUN chown $USER:$USER $HOME
+RUN apt-get install wget
 
 USER $USER
 ENV SERVER $HOME/tfserver
