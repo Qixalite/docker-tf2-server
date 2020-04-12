@@ -24,6 +24,7 @@ WORKDIR $SERVER
 
 RUN wget -O - http://media.steampowered.com/client/steamcmd_linux.tar.gz | tar -C $SERVER -xvz
 
+RUN cd /workspace && ls -la
 ADD /workspace/custom_maps /workspace/match_configs $SERVER/
 RUN cd $SERVER && ls -la && pwd
 
