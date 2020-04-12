@@ -13,7 +13,7 @@ ENV USER tf-server
 
 RUN useradd $USER
 ENV HOME /home/$USER
-RUN MKDIR $HOME
+RUN mkdir $HOME
 RUN chown $USER:$USER $HOME
 
 USER $USER
